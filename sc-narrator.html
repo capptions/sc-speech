@@ -1,0 +1,147 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE
+The complete set of authors may be found at http://polymer.github.io/AUTHORS
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS
+-->
+
+<script src="../franc/dist/franc.js"></script>
+
+<dom-module id="sc-narrator">
+</dom-module>
+
+<script>
+(function () {
+
+  window.Polymer({
+    is: 'sc-narrator',
+
+    properties: {
+      text: {
+        type: String,
+        value: 'How are you doing today?'
+      },
+      accent: {
+        type: String,
+        value: 'en-US',
+      },
+      autodetect: {
+        type: Boolean,
+        value: true
+      },
+      supported: {
+        type: Boolean,
+        value: false,
+        notify: true
+      },
+      volume: {
+        type: Number,
+        value: 1
+      },
+      pitch: {
+        type: Number,
+        value: 1
+      },
+      rate: {
+        type: Number,
+        value: 1
+      }
+    },
+
+    ready: function () {
+      if ('speechSynthesis' in window) {
+        this.utterance = new window.SpeechSynthesisUtterance();
+        this.supported = true;
+      }
+      else {
+        this.hidden = true;
+      }
+    },
+
+    listeners: {
+      'tap': 'speak'
+    },
+
+    observers: [
+      'textChanged(text)',
+      'volumeChanged(volume)',
+      'pitchChanged(pitch)',
+      'rateChanged(rate)'
+    ],
+
+    speak: function () {
+      if (!this.supported || !this.text) {
+        return alert('Your browser doesn\'t support "text to speech"!');
+      }
+
+      window.speechSynthesis.speak(this.utterance);
+    },
+
+    textChanged: function () {
+      if (!this.supported || !this.text) {
+        return;
+      }
+
+      var language = window.franc(this.text);
+      var speech = window.speechSynthesis;
+      var voices = window.speechSynthesis && speech.getVoices() || [];
+      var accents = voices.map(function (v) {
+        return v.lang;
+      }) || [];
+      var languages = accents.map(function (a) {
+        return a.substring(0, 2);
+      });
+
+      var preferred = {
+        nld: 'nl-NL',
+        eng: 'en-GB',
+        und: voices[0] && voices[0].lang || window.navigator.language || 'en-GB'
+      };
+
+      if (preferred.und.indexOf('en') === 0) {
+        preferred.eng = preferred.und;
+      }
+
+      if (preferred[language] && ~accents.indexOf(preferred[language])) {
+        return preferred[language];
+      }
+
+      var voice = voices[languages.indexOf(language.substring(0, 2))];
+      var accent = voice && voice.lang || preferred.und;
+      this.set('accent', accent);
+
+      this.utterance.text = this.text;
+      this.utterance.lang = accent;
+    },
+
+    volumeChanged: function () {
+      if (!this.supported || !this.text) {
+        return;
+      }
+
+      this.utterance.volume = this.volume;
+    },
+
+    pitchChanged: function () {
+      if (!this.supported || !this.text) {
+        return;
+      }
+
+      this.utterance.pitch = this.pitch;
+    },
+
+    rateChanged: function () {
+      if (!this.supported || !this.text) {
+        return;
+      }
+
+      this.utterance.rate = this.rate;
+    }
+
+  });
+
+})();
+</script>

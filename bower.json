@@ -1,0 +1,31 @@
+{
+  "name": "sc-narrator",
+  "version": "1.0.0",
+  "description": "Polymer 1.0 element that speaks text using the HTML5 speech api",
+  "authors": [
+    "Safety Changer"
+  ],
+  "keywords": [
+    "web-components",
+    "web-component",
+    "polymer",
+    "narrator",
+    "narrate",
+    "speech",
+    "speak",
+    "text2voice",
+    "text",
+    "voice"
+  ],
+  "main": "sc-narrator.html",
+  "private": false,
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/safetychanger/sc-narrator"
+  },
+  "license": "http://polymer.github.io/LICENSE.txt",
+  "homepage": "https://github.com/safetychanger/sc-narrator",
+  "dependencies": {
+    "franc": "latest"
+  }
+}
