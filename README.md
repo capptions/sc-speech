@@ -14,7 +14,7 @@ Polymer 1.0 element that speaks text using the HTML5 speech api
 First you need bower, [see their site](http://bower.io/) for details 
 
 ```
-bower install --save sc-timeago
+bower install --save sc-speech
 ```
 
 ### Attributes
