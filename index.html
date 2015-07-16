@@ -9,20 +9,20 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS
 -->
 <html>
-<head>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../webcomponentsjs/webcomponents-lite.js"></script>	
+    <link rel="import" href="sc-speech.html">  
+  </head>
+  <body>
+    <input id="readInput" value="How are you doing today?" />
 
-  <script src="../webcomponentsjs/webcomponents-lite.js"></script>
-  <link rel="import" href="sc-speech.html">
-
-</head>
-<body>
-
-  <sc-speech>
-  	<iron-icon icon="settings-voice"></iron-icon>
-  </sc-speech>
-
-</body>
+    <sc-speech id="speech">
+      <span onclick="document.querySelector('#speech').setAttribute('text',document.querySelector('#readInput').value);">
+        <button>Read</button>
+      </span>
+    </sc-speech>
+  </body>
 </html>
