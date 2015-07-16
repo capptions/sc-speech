@@ -24,6 +24,7 @@
   "license": "http://polymer.github.io/LICENSE.txt",
   "homepage": "https://github.com/safetychanger/sc-speech",
   "dependencies": {
+    "polymer": "~1.0.6",
     "franc": "latest"
   }
 }
