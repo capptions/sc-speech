@@ -53,8 +53,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     ready: function () {
       if ('speechSynthesis' in window) {
-        this.utterance = new window.SpeechSynthesisUtterance();
-        this.supported = true;
+        window.speechSynthesis.addEventListener('voiceschanged', function() {
+          this.utterance = new window.SpeechSynthesisUtterance();
+          this.supported = true;
+          this.textChanged();
+        }.bind(this));
       }
       else {
         this.hidden = true;
@@ -85,6 +88,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         return;
       }
 
+      var accent;
       var language = window.franc(this.text);
       var speech = window.speechSynthesis;
       var voices = window.speechSynthesis && speech.getVoices() || [];
@@ -106,15 +110,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
 
       if (preferred[language] && ~accents.indexOf(preferred[language])) {
-        return preferred[language];
+        accent = preferred[language];
+      }
+      else {
+        var voice = voices[languages.indexOf(language.substring(0, 2))];
+        var accent = voice && voice.lang || preferred.und;
       }
 
-      var voice = voices[languages.indexOf(language.substring(0, 2))];
-      var accent = voice && voice.lang || preferred.und;
       this.set('accent', accent);
-
-      this.utterance.text = this.text;
       this.utterance.lang = accent;
+      this.utterance.text = this.text;
     },
 
     volumeChanged: function () {
