@@ -23,56 +23,103 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       text: {
         type: String,
         value: 'How are you doing today?'
-      },
+       },
       accent: {
         type: String,
         value: 'en-US',
-      },
+       },
       autodetect: {
         type: Boolean,
         value: true
-      },
+       },
       supported: {
         type: Boolean,
         value: false,
         notify: true
-      },
+       },
       volume: {
         type: Number,
         value: 1
-      },
+       },
       pitch: {
         type: Number,
         value: 1
-      },
+       },
       rate: {
         type: Number,
         value: 1
       }
-    },
+     },
 
     ready: function () {
       if ('speechSynthesis' in window) {
-        window.speechSynthesis.addEventListener('voiceschanged', function() {
+        var fn = function() {
           this.utterance = new window.SpeechSynthesisUtterance();
           this.supported = true;
           this.textChanged();
-        }.bind(this));
+        }.bind(this);
+
+        if (window.speechSynthesis.addEventListener) {
+          window.speechSynthesis.addEventListener('voiceschanged', fn);
+        }
+        else {
+          setTimeout(fn, 1000);
+        }
       }
       else {
         this.hidden = true;
       }
-    },
+     },
 
     listeners: {
       'tap': 'speak'
-    },
+     },
 
     observers: [
       'textChanged(text)',
       'volumeChanged(volume)',
       'pitchChanged(pitch)',
       'rateChanged(rate)'
+    ],
+
+    defaultVoices: [
+      { name: 'pt-BR', voiceURI: 'pt-BR', lang: 'pt-BR', localService: true, default: true },
+      { name: 'fr-CA', voiceURI: 'fr-CA', lang: 'fr-CA', localService: true, default: true },
+      { name: 'sk-SK', voiceURI: 'sk-SK', lang: 'sk-SK', localService: true, default: true },
+      { name: 'th-TH', voiceURI: 'th-TH', lang: 'th-TH', localService: true, default: true },
+      { name: 'ro-RO', voiceURI: 'ro-RO', lang: 'ro-RO', localService: true, default: true },
+      { name: 'no-NO', voiceURI: 'no-NO', lang: 'no-NO', localService: true, default: true },
+      { name: 'fi-FI', voiceURI: 'fi-FI', lang: 'fi-FI', localService: true, default: true },
+      { name: 'pl-PL', voiceURI: 'pl-PL', lang: 'pl-PL', localService: true, default: true },
+      { name: 'de-DE', voiceURI: 'de-DE', lang: 'de-DE', localService: true, default: true },
+      { name: 'nl-NL', voiceURI: 'nl-NL', lang: 'nl-NL', localService: true, default: true },
+      { name: 'id-ID', voiceURI: 'id-ID', lang: 'id-ID', localService: true, default: true },
+      { name: 'tr-TR', voiceURI: 'tr-TR', lang: 'tr-TR', localService: true, default: true },
+      { name: 'it-IT', voiceURI: 'it-IT', lang: 'it-IT', localService: true, default: true },
+      { name: 'pt-PT', voiceURI: 'pt-PT', lang: 'pt-PT', localService: true, default: true },
+      { name: 'fr-FR', voiceURI: 'fr-FR', lang: 'fr-FR', localService: true, default: true },
+      { name: 'ru-RU', voiceURI: 'ru-RU', lang: 'ru-RU', localService: true, default: true },
+      { name: 'es-MX', voiceURI: 'es-MX', lang: 'es-MX', localService: true, default: true },
+      { name: 'zh-HK', voiceURI: 'zh-HK', lang: 'zh-HK', localService: true, default: true },
+      { name: 'sv-SE', voiceURI: 'sv-SE', lang: 'sv-SE', localService: true, default: true },
+      { name: 'hu-HU', voiceURI: 'hu-HU', lang: 'hu-HU', localService: true, default: true },
+      { name: 'zh-TW', voiceURI: 'zh-TW', lang: 'zh-TW', localService: true, default: true },
+      { name: 'es-ES', voiceURI: 'es-ES', lang: 'es-ES', localService: true, default: true },
+      { name: 'zh-CN', voiceURI: 'zh-CN', lang: 'zh-CN', localService: true, default: true },
+      { name: 'nl-BE', voiceURI: 'nl-BE', lang: 'nl-BE', localService: true, default: true },
+      { name: 'en-GB', voiceURI: 'en-GB', lang: 'en-GB', localService: true, default: true },
+      { name: 'ar-SA', voiceURI: 'ar-SA', lang: 'ar-SA', localService: true, default: true },
+      { name: 'ko-KR', voiceURI: 'ko-KR', lang: 'ko-KR', localService: true, default: true },
+      { name: 'cs-CZ', voiceURI: 'cs-CZ', lang: 'cs-CZ', localService: true, default: true },
+      { name: 'en-ZA', voiceURI: 'en-ZA', lang: 'en-ZA', localService: true, default: true },
+      { name: 'en-AU', voiceURI: 'en-AU', lang: 'en-AU', localService: true, default: true },
+      { name: 'da-DK', voiceURI: 'da-DK', lang: 'da-DK', localService: true, default: true },
+      { name: 'en-US', voiceURI: 'en-US', lang: 'en-US', localService: true, default: true },
+      { name: 'en-IE', voiceURI: 'en-IE', lang: 'en-IE', localService: true, default: true },
+      { name: 'he-IL', voiceURI: 'he-IL', lang: 'he-IL', localService: true, default: true },
+      { name: 'hi-IN', voiceURI: 'hi-IN', lang: 'hi-IN', localService: true, default: true },
+      { name: 'el-GR', voiceURI: 'el-GR', lang: 'el-GR', localService: true, default: true },
+      { name: 'ja-JP', voiceURI: 'ja-JP', lang: 'ja-JP', localService: true, default: true }
     ],
 
     speak: function () {
@@ -91,7 +138,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       var accent;
       var language = window.franc(this.text);
       var speech = window.speechSynthesis;
-      var voices = window.speechSynthesis && speech.getVoices() || [];
+      var voices = speech && speech.getVoices() || [];
+      voices = voices.length ? voices : this.defaultVoices;
       var accents = voices.map(function (v) {
         return v.lang;
       }) || [];
@@ -114,13 +162,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
       else {
         var voice = voices[languages.indexOf(language.substring(0, 2))];
-        var accent = voice && voice.lang || preferred.und;
+        accent = voice && voice.lang || preferred.und;
       }
 
       this.set('accent', accent);
       this.utterance.lang = accent;
       this.utterance.text = this.text;
-    },
+     },
 
     volumeChanged: function () {
       if (!this.supported || !this.text) {
@@ -128,7 +176,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
 
       this.utterance.volume = this.volume;
-    },
+     },
 
     pitchChanged: function () {
       if (!this.supported || !this.text) {
@@ -136,7 +184,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
 
       this.utterance.pitch = this.pitch;
-    },
+     },
 
     rateChanged: function () {
       if (!this.supported || !this.text) {
