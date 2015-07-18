@@ -47,9 +47,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
        },
       rate: {
         type: Number,
-        value: 0.8
+        value: /chrome/i.test(window.navigator.userAgent) ? 0.8 : 0.5
       }
-     },
+    },
 
     ready: function () {
       if ('speechSynthesis' in window) {
@@ -69,11 +69,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       else {
         this.hidden = true;
       }
-     },
+    },
 
     listeners: {
       'tap': 'speak'
-     },
+    },
 
     observers: [
       'textChanged(text)',
@@ -172,7 +172,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       this.volumeChanged();
       this.pitchChanged();
       this.rateChanged();
-     },
+    },
 
     volumeChanged: function () {
       if (!this.supported || !this.text) {
@@ -180,7 +180,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
 
       this.utterance.volume = this.volume;
-     },
+    },
 
     pitchChanged: function () {
       if (!this.supported || !this.text) {
@@ -188,7 +188,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
 
       this.utterance.pitch = this.pitch;
-     },
+    },
 
     rateChanged: function () {
       if (!this.supported || !this.text) {
