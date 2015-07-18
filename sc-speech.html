@@ -47,7 +47,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
        },
       rate: {
         type: Number,
-        value: 1
+        value: 0.8
       }
      },
 
@@ -168,6 +168,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       this.set('accent', accent);
       this.utterance.lang = accent;
       this.utterance.text = this.text;
+
+      this.volumeChanged();
+      this.pitchChanged();
+      this.rateChanged();
      },
 
     volumeChanged: function () {
