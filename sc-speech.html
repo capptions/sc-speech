@@ -53,21 +53,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     ready: function () {
       if ('speechSynthesis' in window) {
-        var fn = function() {
-          this.utterance = new window.SpeechSynthesisUtterance();
-          this.supported = true;
-          this.textChanged();
-        }.bind(this);
+        // Initialize
+        window.speechSynthesis.getVoices();
 
-        if (window.speechSynthesis.addEventListener) {
-          window.speechSynthesis.addEventListener('voiceschanged', fn);
-        }
-        else {
-          setTimeout(fn, 1000);
-        }
+        setTimeout(function () {
+          this.utterance = new window.SpeechSynthesisUtterance();
+          this.set('supported', true);
+          this.textChanged();
+        }.bind(this), 1000);
       }
       else {
-        this.hidden = true;
+        this.set('hidden', true);
       }
     },
 
